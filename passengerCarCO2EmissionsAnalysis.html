@@ -13536,50 +13536,71 @@ Additional information on this page read:</p>
 
     <span class="k">return</span> <span class="n">test_score</span><span class="p">,</span> <span class="n">train_score</span><span class="p">,</span> <span class="n">lm_model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">coefCorr</span>
 
-<span class="k">def</span> <span class="nf">heatMap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">ValueName</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">heatMap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">valueName</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    df - pandas dataframe</span>
+<span class="sd">    catVarNameList2D - list with names of the two categorical columns in focus</span>
+<span class="sd">    valueName - name of the numeric column</span>
+<span class="sd">    kind - how to aggregate the numeric values (mean, sum, count, percentage)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;sum&#39;</span><span class="p">):</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="n">ValueName</span><span class="p">]</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="n">valueName</span><span class="p">]</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
-                   <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">})</span>
+                   <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;sum(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">})</span>
     <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;count&#39;</span><span class="p">):</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="n">ValueName</span><span class="p">]</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="n">valueName</span><span class="p">]</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.0f&#39;</span><span class="p">,</span>
                    <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;occurances of combinations&#39;</span><span class="p">})</span>
     <span class="k">elif</span> <span class="p">(</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;percentage&#39;</span><span class="p">):</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="n">ValueName</span><span class="p">]</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
-        <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="n">valueName</span><span class="p">]</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">cat</span><span class="p">[</span><span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
         <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;count(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.2f&#39;</span><span class="p">,</span>
                    <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;occurances of combinations&#39;</span><span class="p">})</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="n">ValueName</span><span class="p">]</span>
-        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">catVarNameList2D</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="n">valueName</span><span class="p">]</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">cat</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+                                    <span class="n">values</span> <span class="o">=</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
         <span class="n">sb</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">annot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
-                   <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">ValueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">})</span>
+                   <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span> <span class="p">:</span> <span class="s1">&#39;mean(&#39;</span> <span class="o">+</span> <span class="n">valueName</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">})</span>
     <span class="k">return</span> <span class="kc">None</span>
 
-<span class="k">def</span> <span class="nf">reducedQuadrHeatMap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">ValueName</span><span class="p">,</span> <span class="n">CutOff</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
-    <span class="n">heatMap</span><span class="p">(</span><span class="n">mostFrequentOccurencesOf</span><span class="p">(</span><span class="n">mostFrequentOccurencesOf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">CutOff</span><span class="p">),</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">CutOff</span><span class="p">),</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">ValueName</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">reducedQuadrHeatMap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">valueName</span><span class="p">,</span> <span class="n">cutOff</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    df - pandas dataframe</span>
+<span class="sd">    catVarNameList2D - list with names of the two categorical columns in focus</span>
+<span class="sd">    valueName - name of the numeric column</span>
+<span class="sd">    cutOff - how many of the most frequent categories should be included</span>
+<span class="sd">    kind - how to aggregate the numeric values (mean, sum, count, percentage)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">heatMap</span><span class="p">(</span><span class="n">mostFrequentOccurencesOf</span><span class="p">(</span><span class="n">mostFrequentOccurencesOf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cutOff</span><span class="p">),</span> <span class="n">catVarNameList2D</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cutOff</span><span class="p">),</span> <span class="n">catVarNameList2D</span><span class="p">,</span> <span class="n">valueName</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 <span class="k">def</span> <span class="nf">mean_poly</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># function for dicretized FacetGrid line plot. EXAMPLE:</span>
-    <span class="c1">#g = sb.FacetGrid(data = mostFrequentOccurencesOf(df, &#39;Mp&#39;, 9), hue =&#39;Mp&#39;, height = 8)</span>
-    <span class="c1">#g.map(mean_poly, &#39;ep (KW)&#39;, &#39;Ewltp (g/km)&#39;, bins = 5)</span>
-    <span class="c1">#g.set_ylabels(&#39;mean(Ewltp (g/km))&#39;)</span>
-    <span class="c1">#g.set(xlim = (50,200))</span>
-    <span class="c1">#g.add_legend()</span>
-    
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    function for dicretized FacetGrid line plot. EXAMPLE:</span>
+<span class="sd">    g = sb.FacetGrid(data = mostFrequentOccurencesOf(df, &#39;Mp&#39;, 9), hue =&#39;Mp&#39;, height = 8)</span>
+<span class="sd">    g.map(mean_poly, &#39;ep (KW)&#39;, &#39;Ewltp (g/km)&#39;, bins = 5)</span>
+<span class="sd">    g.set_ylabels(&#39;mean(Ewltp (g/km))&#39;)</span>
+<span class="sd">    g.set(xlim = (50,200))</span>
+<span class="sd">    g.add_legend()</span>
+<span class="sd">    </span>
+<span class="sd">    INPUT:</span>
+<span class="sd">    x - x axes values (pandas series)</span>
+<span class="sd">    y - y axes values (pandas series)</span>
+<span class="sd">    bins - number of value ranges for the seperation of the continuous variable</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># set bin edges if none or int specified</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">bins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -14415,6 +14436,18 @@ memory usage: 561.7+ MB
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>How can OEMs reduce their fleet emissions?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
@@ -14765,6 +14798,19 @@ memory usage: 561.7+ MB
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+<li>How can OEMs reduce their fleet emissions?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
@@ -15052,6 +15098,19 @@ memory usage: 561.7+ MB
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>How can OEMs reduce their fleet emissions?</li>
+<li>When is the best time to buy an electrified vehicle in europe?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -15779,17 +15838,17 @@ Name: Mp, dtype: float64
 
 
 
-clio                                       2.563770e-02
-308                                        1.945526e-02
-3008                                       1.826958e-02
-panda                                      1.592486e-02
-golf                                       1.589625e-02
-                                               ...     
-ds3 / 1.2 / aut.                           2.444712e-07
-c3 puretech 82 ss 108                      2.444712e-07
-mondeo st- line                            2.444712e-07
-tourneo custom / 2.0 tdci 125 320 l2 h1    2.444712e-07
-mx-5/rf/g132/revolution                    2.444712e-07
+clio                              2.563770e-02
+308                               1.945526e-02
+3008                              1.826958e-02
+panda                             1.592486e-02
+golf                              1.589625e-02
+                                      ...     
+lc 500h sport auto                2.444712e-07
+discovery sport 2,0 td4 180 la    2.444712e-07
+astra sports to                   2.444712e-07
+320i xdrive se gt auto            2.444712e-07
+discovery / 3.0 / sd6 4wd aut.    2.444712e-07
 Name: Cn, Length: 6412, dtype: float64
 
 
@@ -15814,17 +15873,17 @@ Name: Fm, dtype: float64
 
 
 
-toyota                 3.091876e-02
-clio                   2.840707e-02
-fiesta                 2.286759e-02
-308                    2.137363e-02
-golf                   2.123184e-02
-                           ...     
-sportage/platin/2.0    2.444712e-07
-erx5                   2.444712e-07
-e400d                  2.444712e-07
-316                    2.444712e-07
-freedom                2.444712e-07
+toyota      3.091876e-02
+clio        2.840707e-02
+fiesta      2.286759e-02
+308         2.137363e-02
+golf        2.123184e-02
+                ...     
+r1ecls      2.444712e-07
+ducato      2.444712e-07
+316         2.444712e-07
+sl500       2.444712e-07
+roadster    2.444712e-07
 Name: simple_Cn, Length: 833, dtype: float64
 
 
@@ -16590,6 +16649,19 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+<li>How can OEMs reduce their fleet emissions?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
@@ -16652,7 +16724,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135d831d0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5da37b8&gt;</pre>
 </div>
 
 </div>
@@ -16701,7 +16773,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135cdd358&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5d02cf8&gt;</pre>
 </div>
 
 </div>
@@ -16750,7 +16822,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135c50dd8&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5c6fe48&gt;</pre>
 </div>
 
 </div>
@@ -16773,6 +16845,19 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>How can OEMs reduce their fleet emissions?</li>
+<li>When is the best time to buy an electrified vehicle in europe?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16799,7 +16884,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135bda8d0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5bfa828&gt;</pre>
 </div>
 
 </div>
@@ -16848,7 +16933,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135afdfd0&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5b81f98&gt;</pre>
 </div>
 
 </div>
@@ -16871,6 +16956,18 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16898,7 +16995,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x20135a03198&gt;</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x222b5a23278&gt;</pre>
 </div>
 
 </div>
@@ -16921,6 +17018,20 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+<li>How can OEMs reduce their fleet emissions?</li>
+<li>When is the best time to buy an electrified vehicle in europe?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -17070,6 +17181,19 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+<li>How can OEMs reduce their fleet emissions?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
@@ -17099,7 +17223,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x201352ff908&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x222b53e0748&gt;</pre>
 </div>
 
 </div>
@@ -17165,7 +17289,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x201351a9eb8&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x222b51f32e8&gt;</pre>
 </div>
 
 </div>
@@ -17231,7 +17355,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x2013528d3c8&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x222b51e0550&gt;</pre>
 </div>
 
 </div>
@@ -17299,7 +17423,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x2013507cf60&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x222b50b6c50&gt;</pre>
 </div>
 
 </div>
@@ -17367,7 +17491,7 @@ Name: simple_Cn, Length: 833, dtype: float64
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x20135122be0&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x222b5052940&gt;</pre>
 </div>
 
 </div>
@@ -17786,6 +17910,19 @@ Name: simple_Cn, Length: 833, dtype: float64
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>The following block(s) might be useful to answer question(s) like:</p>
+<ul>
+<li>Which vehicle characteristics show a significant influence on the vehicles CO2 emission?</li>
+<li>How can OEMs reduce their fleet emissions?</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
